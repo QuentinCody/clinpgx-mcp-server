@@ -35,7 +35,7 @@ interface ClinPGxResponse {
     status?: string;
 }
 
-export function registerGeneLookup(server: McpServer, env?: GeneLookupEnv) {
+export function registerGeneLookup(server: McpServer, env?: GeneLookupEnv): void {
     server.registerTool(
         "clinpgx_gene_lookup",
         {
@@ -54,7 +54,7 @@ export function registerGeneLookup(server: McpServer, env?: GeneLookupEnv) {
             },
         },
         async (rawArgs, extra) => {
-            const envToUse = env || (extra as any)?.env;
+            const envToUse = env || (extra as { env?: Record<string, unknown> })?.env;
             try {
                 const { symbol } = rawArgs as { symbol: string };
 
@@ -103,7 +103,7 @@ export function registerGeneLookup(server: McpServer, env?: GeneLookupEnv) {
                         const sessionId = (extra as { sessionId?: string })?.sessionId;
                         const staged = await stageToDoAndRespond(
                             genes,
-                            envToUse.CLINPGX_DATA_DO as any,
+                            envToUse.CLINPGX_DATA_DO as DurableObjectNamespace,
                             "clinpgx_gene",
                             undefined,
                             undefined,

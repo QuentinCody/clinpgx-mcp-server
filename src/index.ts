@@ -18,7 +18,7 @@ interface ClinpgxEnv {
 }
 
 export class MyMCP extends McpAgent {
-    server: any = new McpServer({
+    server = new McpServer({
         name: "clinpgx",
         version: "0.1.0",
     });

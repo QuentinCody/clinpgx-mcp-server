@@ -21,7 +21,7 @@ interface CodeModeEnv {
 /**
  * Register clinpgx_search and clinpgx_execute tools.
  */
-export function registerCodeMode(server: McpServer, env: CodeModeEnv) {
+export function registerCodeMode(server: McpServer, env: CodeModeEnv): void {
     const apiFetch = createClinpgxApiFetch();
 
     // Register the search tool (in-process, no isolate)

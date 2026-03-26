@@ -38,7 +38,7 @@ interface ClinPGxResponse {
 export function registerClinicalAnnotations(
     server: McpServer,
     env?: ClinicalAnnotationsEnv,
-) {
+): void {
     server.registerTool(
         "clinpgx_clinical_annotations",
         {
@@ -75,7 +75,7 @@ export function registerClinicalAnnotations(
             },
         },
         async (rawArgs, extra) => {
-            const envToUse = env || (extra as any)?.env;
+            const envToUse = env || (extra as { env?: Record<string, unknown> })?.env;
             try {
                 const {
                     gene,
@@ -163,7 +163,7 @@ export function registerClinicalAnnotations(
                 // Client-side level filter (API uses 'levelOfEvidence', not filterable server-side)
                 if (level) {
                     annotations = annotations.filter(
-                        (a) => (a as any).levelOfEvidence === level,
+                        (a) => (a as Record<string, unknown>).levelOfEvidence === level,
                     );
                 }
 
@@ -210,7 +210,7 @@ export function registerClinicalAnnotations(
                         const sessionId = (extra as { sessionId?: string })?.sessionId;
                         const staged = await stageToDoAndRespond(
                             annotations,
-                            envToUse.CLINPGX_DATA_DO as any,
+                            envToUse.CLINPGX_DATA_DO as DurableObjectNamespace,
                             "clinical_annotation",
                             undefined,
                             undefined,
@@ -251,7 +251,7 @@ export function registerClinicalAnnotations(
                         a.relatedChemicals?.map((c) => c.name).join(", ") ?? "?";
                     const phenotypes =
                         a.phenotypes?.map((p) => p.name).join(", ") ?? "";
-                    return `[Level ${(a as any).levelOfEvidence ?? "?"}] ${genes} / ${drugs}${phenotypes ? ` - ${phenotypes}` : ""} (ID: ${a.id ?? "?"})`;
+                    return `[Level ${(a as Record<string, unknown>).levelOfEvidence ?? "?"}] ${genes} / ${drugs}${phenotypes ? ` - ${phenotypes}` : ""} (ID: ${a.id ?? "?"})`;
                 });
 
                 const text =

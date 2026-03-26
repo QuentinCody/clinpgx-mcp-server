@@ -38,7 +38,7 @@ interface ClinPGxResponse {
 export function registerGuidelineAnnotations(
     server: McpServer,
     env?: GuidelineAnnotationsEnv,
-) {
+): void {
     server.registerTool(
         "clinpgx_guideline_annotations",
         {
@@ -70,7 +70,7 @@ export function registerGuidelineAnnotations(
             },
         },
         async (rawArgs, extra) => {
-            const envToUse = env || (extra as any)?.env;
+            const envToUse = env || (extra as { env?: Record<string, unknown> })?.env;
             try {
                 const {
                     gene,
@@ -173,7 +173,7 @@ export function registerGuidelineAnnotations(
                         const sessionId = (extra as { sessionId?: string })?.sessionId;
                         const staged = await stageToDoAndRespond(
                             guidelines,
-                            envToUse.CLINPGX_DATA_DO as any,
+                            envToUse.CLINPGX_DATA_DO as DurableObjectNamespace,
                             "guideline_annotation",
                             undefined,
                             undefined,

@@ -17,7 +17,7 @@ export class ClinpgxDataDO extends RestStagingDO {
                 // ClinPGx objects have objCls, id, and name fields
                 if ("type" in sample && "name" in sample && ("objCls" in sample || "id" in sample)) {
                     const objCls =
-                        (sample as any).objCls || (sample as any).type || "data";
+                        (sample as Record<string, unknown>).objCls || (sample as Record<string, unknown>).type || "data";
                     return {
                         tableName: String(objCls).toLowerCase().replace(/\s+/g, "_"),
                         indexes: ["id", "name"],
@@ -33,7 +33,7 @@ export class ClinpgxDataDO extends RestStagingDO {
                 }
 
                 // Drug labels have drug and source fields
-                if ("objCls" in sample && (sample as any).objCls === "Drug Label") {
+                if ("objCls" in sample && (sample as Record<string, unknown>).objCls === "Drug Label") {
                     return {
                         tableName: "drug_label",
                         indexes: ["id", "name"],
@@ -41,7 +41,7 @@ export class ClinpgxDataDO extends RestStagingDO {
                 }
 
                 // Guideline annotations
-                if ("objCls" in sample && (sample as any).objCls === "Guideline Annotation") {
+                if ("objCls" in sample && (sample as Record<string, unknown>).objCls === "Guideline Annotation") {
                     return {
                         tableName: "guideline_annotation",
                         indexes: ["id", "name"],
@@ -49,7 +49,7 @@ export class ClinpgxDataDO extends RestStagingDO {
                 }
 
                 // Variant annotations
-                if ("objCls" in sample && (sample as any).objCls === "Variant Annotation") {
+                if ("objCls" in sample && (sample as Record<string, unknown>).objCls === "Variant Annotation") {
                     return {
                         tableName: "variant_annotation",
                         indexes: ["id"],

@@ -36,7 +36,7 @@ interface ClinPGxResponse {
     status?: string;
 }
 
-export function registerDrugLookup(server: McpServer, env?: DrugLookupEnv) {
+export function registerDrugLookup(server: McpServer, env?: DrugLookupEnv): void {
     server.registerTool(
         "clinpgx_drug_lookup",
         {
@@ -55,12 +55,12 @@ export function registerDrugLookup(server: McpServer, env?: DrugLookupEnv) {
             },
         },
         async (rawArgs, extra) => {
-            const envToUse = env || (extra as any)?.env;
+            const envToUse = env || (extra as { env?: Record<string, unknown> })?.env;
             try {
                 const { name } = rawArgs as { name: string };
 
                 // Try direct drug lookup first (ClinPGx uses /data/chemical instead of /data/drug)
-                let response = await clinpgxFetch("/data/chemical", {
+                const response = await clinpgxFetch("/data/chemical", {
                     name,
                     view: "max",
                 });
@@ -83,7 +83,7 @@ export function registerDrugLookup(server: McpServer, env?: DrugLookupEnv) {
                         objectType: "Chemical",
                     });
                     if (searchResponse.ok) {
-                        const searchJson = (await searchResponse.json()) as any;
+                        const searchJson = (await searchResponse.json()) as { data?: Array<{ obj?: Record<string, unknown> }> };
                         const searchResults = searchJson.data ?? [];
                         for (const result of searchResults) {
                             if (result.obj && (result.obj.objCls === "Chemical" || result.obj.objCls === "Drug")) {
@@ -123,7 +123,7 @@ export function registerDrugLookup(server: McpServer, env?: DrugLookupEnv) {
                         const sessionId = (extra as { sessionId?: string })?.sessionId;
                         const staged = await stageToDoAndRespond(
                             drugs,
-                            envToUse.CLINPGX_DATA_DO as any,
+                            envToUse.CLINPGX_DATA_DO as DurableObjectNamespace,
                             "clinpgx_drug",
                             undefined,
                             undefined,
