@@ -238,9 +238,7 @@ export function registerClinicalAnnotations(
                                 _staging: staged._staging,
                             },
                         };
-                    } catch {
-                        // fall through to inline
-                    }
+                    } catch { /* best-effort: fall through to inline */ }
                 }
 
                 // Build summary text
