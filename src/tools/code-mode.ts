@@ -34,6 +34,8 @@ export function registerCodeMode(server: McpServer, env: CodeModeEnv): void {
     // Register the execute tool (V8 isolate via DynamicWorkerExecutor)
     const executeTool = createExecuteTool({
         prefix: "clinpgx",
+        // Verifiable provenance: clinpgx_execute results carry a _meta.citation.
+        source: { id: "clinpgx", name: "ClinPGx", url: "https://www.clinpgx.org", license: "CC BY-SA 4.0" },
         catalog: clinpgxCatalog,
         apiFetch,
         doNamespace: env.CLINPGX_DATA_DO,

@@ -122,7 +122,7 @@ export const clinpgxCatalog: ApiCatalog = {
             queryParams: [
                 { name: "location.genes.symbol", type: "string", required: false, description: "Filter by gene symbol (e.g., CYP2D6)" },
                 { name: "relatedChemicals.name", type: "string", required: false, description: "Filter by drug name (e.g., codeine)" },
-                { name: "location.variants.name", type: "string", required: false, description: "Filter by variant rsID (e.g., rs4244285)" },
+                { name: "location.variant.symbol", type: "string", required: false, description: "Filter by variant rsID (e.g., rs4244285). NOTE: the working param is location.variant.symbol — location.variants.name returns 0 results" },
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
         },

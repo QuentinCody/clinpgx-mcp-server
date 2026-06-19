@@ -120,7 +120,7 @@ export function registerDrugLookup(server: McpServer, env?: DrugLookupEnv): void
                 const responseBytes = JSON.stringify(responseData).length;
                 if (shouldStage(responseBytes) && envToUse?.CLINPGX_DATA_DO) {
                     try {
-                        const sessionId = (extra as { sessionId?: string })?.sessionId;
+                        const sessionId = (extra as Record<string, unknown>);
                         const staged = await stageToDoAndRespond(
                             drugs,
                             envToUse.CLINPGX_DATA_DO as DurableObjectNamespace,

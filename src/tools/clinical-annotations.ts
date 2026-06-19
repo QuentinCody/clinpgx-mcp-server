@@ -112,7 +112,7 @@ export function registerClinicalAnnotations(
                 const params: Record<string, unknown> = {};
                 if (gene) params["location.genes.symbol"] = gene;
                 if (drug) params["relatedChemicals.name"] = drug;
-                if (variant) params["location.variants.name"] = variant;
+                if (variant) params["location.variant.symbol"] = variant;
 
                 const response = await clinpgxFetch(
                     "/data/clinicalAnnotation",
@@ -207,7 +207,7 @@ export function registerClinicalAnnotations(
                 const responseBytes = JSON.stringify(responseData).length;
                 if (shouldStage(responseBytes) && envToUse?.CLINPGX_DATA_DO) {
                     try {
-                        const sessionId = (extra as { sessionId?: string })?.sessionId;
+                        const sessionId = (extra as Record<string, unknown>);
                         const staged = await stageToDoAndRespond(
                             annotations,
                             envToUse.CLINPGX_DATA_DO as DurableObjectNamespace,
