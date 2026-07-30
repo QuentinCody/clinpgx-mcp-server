@@ -98,7 +98,7 @@ assertContains('src/tools/get-schema.ts', getSchemaContent, 'clinpgx_get_schema'
 // Verify index.ts exports Durable Object and registers tools
 const indexContent = readFile('src/index.ts');
 assertContains('src/index.ts', indexContent, 'ClinpgxDataDO', 'index.ts exports ClinpgxDataDO');
-assertContains('src/index.ts', indexContent, 'McpAgent', 'index.ts uses McpAgent');
+assertContains('src/index.ts', indexContent, 'StatelessMcpWorker', 'index.ts uses StatelessMcpWorker');
 assertContains('src/index.ts', indexContent, 'registerGeneLookup', 'index.ts registers gene lookup');
 assertContains('src/index.ts', indexContent, 'registerDrugLookup', 'index.ts registers drug lookup');
 assertContains('src/index.ts', indexContent, 'registerClinicalAnnotations', 'index.ts registers clinical annotations');

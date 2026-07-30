@@ -5,7 +5,7 @@
  * variant rsID, and evidence level. May return many results — uses staging for large responses.
  */
 
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@bio-mcp/shared/mcp";
 import { z } from "zod";
 import { clinpgxFetch } from "../lib/http";
 import {

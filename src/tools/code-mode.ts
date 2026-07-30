@@ -7,7 +7,7 @@
  * Tools: clinpgx_search and clinpgx_execute
  */
 
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@bio-mcp/shared/mcp";
 import { createSearchTool } from "@bio-mcp/shared/codemode/search-tool";
 import { createExecuteTool } from "@bio-mcp/shared/codemode/execute-tool";
 import { clinpgxCatalog } from "../spec/catalog";
