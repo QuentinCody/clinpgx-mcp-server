@@ -19,7 +19,7 @@ export const clinpgxCatalog: ApiCatalog = {
     baseUrl: "https://api.clinpgx.org/v1",
     version: "1.0.0",
     auth: "none",
-    endpointCount: 28,
+    endpointCount: 25,
     notes:
         "- ClinPGx (formerly PharmGKB) — all pharmgkb.org URLs now redirect to clinpgx.org\n" +
         "- All list responses are wrapped in { data: [...], status: 'success' }. Access results via result.data\n" +
@@ -59,6 +59,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/gene/{accessionId}",
             summary: "Get detailed gene information by ClinPGx accession ID (e.g., PA131)",
             category: "genes",
+            pathParams: [
+            	{ name: "accessionId", type: "string", required: true, description: "ClinPGx accession ID, PA-prefixed (e.g. `PA267` = gene ABCB1)." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -83,6 +86,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/chemical/{accessionId}",
             summary: "Get detailed chemical/drug information by ClinPGx accession ID (e.g., PA452625)",
             category: "chemicals",
+            pathParams: [
+            	{ name: "accessionId", type: "string", required: true, description: "ClinPGx accession ID, PA-prefixed (e.g. `PA267` = gene ABCB1)." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -107,6 +113,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/variant/{accessionId}",
             summary: "Get detailed variant information by ClinPGx accession ID",
             category: "variants",
+            pathParams: [
+            	{ name: "accessionId", type: "string", required: true, description: "ClinPGx accession ID, PA-prefixed (e.g. `PA267` = gene ABCB1)." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -131,6 +140,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/clinicalAnnotation/{id}",
             summary: "Get a specific clinical annotation by numeric ID",
             category: "clinical_annotations",
+            pathParams: [
+            	{ name: "id", type: "string", required: true, description: "Numeric annotation ID, as returned by the corresponding search/list endpoint." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -157,6 +169,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/guidelineAnnotation/{id}",
             summary: "Get a specific CPIC/DPWG dosing guideline by ClinPGx ID — includes full prescribing recommendations",
             category: "guideline_annotations",
+            pathParams: [
+            	{ name: "id", type: "string", required: true, description: "Numeric annotation ID, as returned by the corresponding search/list endpoint." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -182,6 +197,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/drugLabel/{id}",
             summary: "Get a specific drug label by ClinPGx ID — includes PGx biomarker details and regulatory annotations",
             category: "labels",
+            pathParams: [
+            	{ name: "id", type: "string", required: true, description: "Numeric annotation ID, as returned by the corresponding search/list endpoint." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -206,6 +224,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/variantAnnotation/{id}",
             summary: "Get a specific variant annotation by ID",
             category: "variant_annotations",
+            pathParams: [
+            	{ name: "id", type: "string", required: true, description: "Numeric annotation ID, as returned by the corresponding search/list endpoint." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -228,6 +249,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/pathway/{accessionId}",
             summary: "Get detailed pathway information by ClinPGx accession ID",
             category: "pathways",
+            pathParams: [
+            	{ name: "accessionId", type: "string", required: true, description: "ClinPGx accession ID, PA-prefixed (e.g. `PA267` = gene ABCB1)." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -239,6 +263,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/literature/{pmid}",
             summary: "Get ClinPGx literature annotation info for a PubMed article",
             category: "literature",
+            pathParams: [
+            	{ name: "pmid", type: "string", required: true, description: "PubMed ID (PMID) of the publication." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -262,6 +289,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/disease/{accessionId}",
             summary: "Get detailed disease information by ClinPGx accession ID",
             category: "diseases",
+            pathParams: [
+            	{ name: "accessionId", type: "string", required: true, description: "ClinPGx accession ID, PA-prefixed (e.g. `PA267` = gene ABCB1)." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -284,6 +314,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/phenotype/{accessionId}",
             summary: "Get detailed phenotype/disease information by ClinPGx accession ID (legacy)",
             category: "diseases",
+            pathParams: [
+            	{ name: "accessionId", type: "string", required: true, description: "ClinPGx accession ID, PA-prefixed (e.g. `PA267` = gene ABCB1)." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -306,6 +339,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/data/automatedAnnotation/{id}",
             summary: "Get a specific automated annotation by ID",
             category: "automated_annotations",
+            pathParams: [
+            	{ name: "id", type: "string", required: true, description: "Numeric annotation ID, as returned by the corresponding search/list endpoint." },
+            ],
             queryParams: [
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
             ],
@@ -317,6 +353,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/report/gene/{symbol}",
             summary: "Get comprehensive gene report by symbol (e.g., CYP2D6) — all annotations, guidelines, labels for a gene",
             category: "reports",
+            pathParams: [
+            	{ name: "symbol", type: "string", required: true, description: "HGNC gene symbol (e.g. `CYP2D6`)." },
+            ],
             queryParams: [],
         },
         {
@@ -324,6 +363,9 @@ export const clinpgxCatalog: ApiCatalog = {
             path: "/report/chemical/{accessionId}",
             summary: "Get comprehensive chemical/drug report by ClinPGx accession ID — all annotations, guidelines, labels",
             category: "reports",
+            pathParams: [
+            	{ name: "accessionId", type: "string", required: true, description: "ClinPGx accession ID, PA-prefixed (e.g. `PA267` = gene ABCB1)." },
+            ],
             queryParams: [],
         },
 
