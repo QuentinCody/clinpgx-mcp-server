@@ -99,10 +99,11 @@ assertContains('src/tools/get-schema.ts', getSchemaContent, 'clinpgx_get_schema'
 const indexContent = readFile('src/index.ts');
 assertContains('src/index.ts', indexContent, 'ClinpgxDataDO', 'index.ts exports ClinpgxDataDO');
 assertContains('src/index.ts', indexContent, 'StatelessMcpWorker', 'index.ts uses StatelessMcpWorker');
-assertContains('src/index.ts', indexContent, 'registerGeneLookup', 'index.ts registers gene lookup');
-assertContains('src/index.ts', indexContent, 'registerDrugLookup', 'index.ts registers drug lookup');
-assertContains('src/index.ts', indexContent, 'registerClinicalAnnotations', 'index.ts registers clinical annotations');
-assertContains('src/index.ts', indexContent, 'registerGuidelineAnnotations', 'index.ts registers guideline annotations');
+assertContains('src/index.ts', indexContent, 'registerLegacyTools', 'index.ts registers the annotation tools');
+const legacyContent = readFile('src/tools/legacy-registration.ts');
+for (const name of ['registerGeneLookup', 'registerDrugLookup', 'registerClinicalAnnotations', 'registerGuidelineAnnotations']) {
+  assertContains('src/tools/legacy-registration.ts', legacyContent, name, `legacy registration includes ${name}`);
+}
 assertContains('src/index.ts', indexContent, 'registerCodeMode', 'index.ts registers code mode');
 
 // Verify DO

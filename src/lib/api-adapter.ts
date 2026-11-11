@@ -5,6 +5,7 @@
 
 import type { ApiFetchFn } from "@bio-mcp/shared/codemode/catalog";
 import { clinpgxFetch } from "./http";
+import { cpicRead } from "./cpic";
 
 /**
  * Create an ApiFetchFn that routes through clinpgxFetch.
@@ -12,6 +13,10 @@ import { clinpgxFetch } from "./http";
  */
 export function createClinpgxApiFetch(): ApiFetchFn {
     return async (request) => {
+        if (request.path.startsWith("/cpic/")) return cpicRead(request);
+        if (request.method !== "GET" || request.body !== undefined) {
+            throw Object.assign(new Error("ClinPGx annotation routes support bodyless GET reads only"), {status: 405});
+        }
         const response = await clinpgxFetch(
             request.path,
             request.params as Record<string, unknown>,

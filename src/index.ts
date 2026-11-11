@@ -1,10 +1,7 @@
 import { buildHealthResponse, configureCitationSigning } from "@bio-mcp/shared";
 import { StatelessMcpWorker } from "@bio-mcp/shared/mcp";
 import { McpServer } from "@bio-mcp/shared/mcp";
-import { registerGeneLookup } from "./tools/gene-lookup";
-import { registerDrugLookup } from "./tools/drug-lookup";
-import { registerClinicalAnnotations } from "./tools/clinical-annotations";
-import { registerGuidelineAnnotations } from "./tools/guideline-annotations";
+import { registerLegacyTools } from "./tools/legacy-registration";
 import { registerQueryData } from "./tools/query-data";
 import { registerGetSchema } from "./tools/get-schema";
 import { registerCodeMode } from "./tools/code-mode";
@@ -28,10 +25,7 @@ export class MyMCP extends StatelessMcpWorker {
 
     	configureCitationSigning(this.env);
         const env = this.env as unknown as ClinpgxEnv;
-        registerGeneLookup(this.server, env);
-        registerDrugLookup(this.server, env);
-        registerClinicalAnnotations(this.server, env);
-        registerGuidelineAnnotations(this.server, env);
+        registerLegacyTools(this.server, env);
         registerQueryData(this.server, env);
         registerGetSchema(this.server, env);
         registerCodeMode(this.server, env);

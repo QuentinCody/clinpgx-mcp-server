@@ -10,6 +10,7 @@
     "lint": "biome lint --diagnostic-level=error src/",
     "type-check": "npm run cf-typegen && tsc --noEmit",
     "test:regression": "node test/structured-content-regression.mjs",
+    "test:bulk": "python3 -B -m unittest discover -s scripts -v",
     "test": "npm run type-check && npm run test:regression"
   },
   "dependencies": {

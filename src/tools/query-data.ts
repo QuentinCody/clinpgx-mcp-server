@@ -1,6 +1,7 @@
 import type { McpServer } from "@bio-mcp/shared/mcp";
 import { z } from "zod";
 import { createQueryDataHandler } from "@bio-mcp/shared/staging/utils";
+import { clinpgxResponse, type ClinpgxDataEnv } from "../lib/tool-result";
 
 interface QueryEnv {
     CLINPGX_DATA_DO?: unknown;
@@ -9,8 +10,8 @@ interface QueryEnv {
 export function registerQueryData(server: McpServer, env?: QueryEnv): void {
     const handler = createQueryDataHandler("CLINPGX_DATA_DO", "clinpgx");
 
-    server.registerTool(
-        "clinpgx_query_data",
+    for (const name of ["clinpgx_query_data", "mcp_clinpgx_query_data"]) server.registerTool(
+        name,
         {
             title: "Query Staged ClinPGx Data",
             description:
@@ -37,10 +38,10 @@ export function registerQueryData(server: McpServer, env?: QueryEnv): void {
         async (args, extra) => {
             const runtimeEnv =
                 env || (extra as { env?: QueryEnv })?.env || {};
-            return handler(
+            return clinpgxResponse(() => handler(
                 args as Record<string, unknown>,
                 runtimeEnv as Record<string, unknown>,
-            );
+            ), runtimeEnv as ClinpgxDataEnv, name, extra);
         },
     );
 }

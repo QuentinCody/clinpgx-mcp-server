@@ -45,8 +45,8 @@ export function registerGuidelineAnnotations(
             title: "ClinPGx Dosing Guidelines",
             description:
                 "Get CPIC and DPWG dosing guidelines from ClinPGx — evidence-graded prescribing " +
-                "recommendations for pharmacogenomic-guided dosing. When a clinician asks 'patient is " +
-                "CYP2D6 poor metabolizer, what's the codeine dosing recommendation?' — this answers it. " +
+                "recommendations and their source context. This searches annotations; it does not " +
+                "translate a genotype or determine which recommendation applies to an individual. " +
                 "Filter by guideline source (cpic/dpwg), gene symbol, or drug name.",
             inputSchema: {
                 gene: z

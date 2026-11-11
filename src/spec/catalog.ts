@@ -13,13 +13,16 @@
  */
 
 import type { ApiCatalog } from "@bio-mcp/shared/codemode/catalog";
+import { cpicEndpoints } from "./cpic";
+import { cpicWorkflows } from "./cpic-workflows";
 
 export const clinpgxCatalog: ApiCatalog = {
     name: "ClinPGx",
     baseUrl: "https://api.clinpgx.org/v1",
     version: "1.0.0",
     auth: "none",
-    endpointCount: 25,
+    endpointCount: 25 + cpicEndpoints.length,
+    workflows: cpicWorkflows,
     notes:
         "- ClinPGx (formerly PharmGKB) — all pharmgkb.org URLs now redirect to clinpgx.org\n" +
         "- All list responses are wrapped in { data: [...], status: 'success' }. Access results via result.data\n" +
@@ -36,9 +39,13 @@ export const clinpgxCatalog: ApiCatalog = {
         "  Use /data/clinicalAnnotation?relatedChemicals.name=DRUG or ?location.genes.symbol=GENE instead.\n" +
         "- Drug labels are at /data/drugLabel (not /data/label). Filter with relatedChemicals.name or relatedGenes.symbol.\n" +
         "- ClinPGx returns 404 for zero-result queries — the adapter normalizes this to { data: [], status: 'success' }.\n" +
-        "- Guideline annotations include CPIC, DPWG, and PRO sources — filter with source param.\n" +
-        "- Field renaming in progress: pharmgkbId → clinpgxId, pgkbCALevel → clinpgxLevel (API may return either).",
+        "- Guideline annotations include CPIC, DPWG, and PRO sources — filter with source param. /data/guidelineAnnotation rejects max, offset, page and limit; narrow by source, gene and drug instead.\n" +
+        "- /cpic/schema and /cpic/{resource} route to the separate api.cpicpgx.org/v1 API; other paths retain ClinPGx annotation routing.\n" +
+        "- CPIC reads return {records, _cpic}, or {schema, _cpic}; preserve native records and provenance/staging handles. Native PostgREST filters are encoded as strings (e.g. drugname: 'eq.rosuvastatin').\n" +
+        "- Resolve diplotypes to gene results before recommendation matching. Preserve ambiguous matches and explicit No Result inputs; do not substitute normal function or infer missing genes. CPIC pages are not a pinned snapshot.\n" +
+        "- CPIC column migrations do not establish ClinPGx JSON field names. Guideline annotations are not a diplotype-to-recommendation lookup.",
     endpoints: [
+        ...cpicEndpoints,
         // === Genes ===
         {
             method: "GET",
@@ -160,8 +167,6 @@ export const clinpgxCatalog: ApiCatalog = {
                 { name: "relatedGenes.symbol", type: "string", required: false, description: "Filter by gene symbol (e.g., CYP2D6)" },
                 { name: "relatedChemicals.name", type: "string", required: false, description: "Filter by drug name (e.g., codeine)" },
                 { name: "view", type: "string", required: false, description: "Detail level: min, base, max", default: "base" },
-                { name: "offset", type: "number", required: false, description: "Pagination offset", default: 0 },
-                { name: "max", type: "number", required: false, description: "Max results per page", default: 25 },
             ],
         },
         {
